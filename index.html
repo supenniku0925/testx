@@ -161,6 +161,11 @@ main { max-width: 760px; margin: 0 auto; padding: 12px 12px calc(var(--safe-b) +
   .media-count-line { display: block; }
 }
 
+/* ── 動画 ── */
+.vbox { position: relative; margin-top: 10px; width: 100%; max-height: 640px; border-radius: 12px; overflow: hidden; background: #000; border: 1px solid var(--line-soft); }
+.vbox video { display: block; width: 100%; height: 100%; max-height: 640px; object-fit: contain; background: #000; }
+.gif { position: absolute; left: 8px; bottom: 8px; padding: 1px 6px; border-radius: 4px; background: rgba(0,0,0,.65); color: #fff; font-size: 10.5px; font-weight: 700; pointer-events: none; }
+
 /* ── 空・読み込み ── */
 .welcome { max-width: 520px; margin: 40px auto 0; text-align: center; padding: 0 10px; }
 .welcome h1 { font-size: 22px; margin: 10px 0 8px; letter-spacing: -.02em; }
@@ -374,6 +379,17 @@ async function cacheClear() {
 }
 
 /* ── バックアップの読み込み ── */
+function cleanVideos(value) {
+  return (Array.isArray(value) ? value : []).map(v => {
+    if (!v || typeof v !== 'object') return null;
+    const variants = (Array.isArray(v.variants) ? v.variants : [])
+      .map(x => ({ url: safeUrl(x?.url, ['video.twimg.com']), bitrate: Number.isFinite(x?.bitrate) && x.bitrate >= 0 ? x.bitrate : 0 }))
+      .filter(x => x.url).sort((a, b) => a.bitrate - b.bitrate).slice(-4);
+    if (!variants.length) return null;
+    const n = x => Number.isFinite(x) && x > 0 ? x : 0;
+    return { poster: safeUrl(v.poster, ['pbs.twimg.com']), variants, gif: !!v.gif, w: n(v.w), h: n(v.h) };
+  }).filter(Boolean).slice(0, 4);
+}
 function cleanPost(p) {
   if (!p || typeof p !== 'object') return null;
   const id = String(p.id || '');
@@ -393,6 +409,7 @@ function cleanPost(p) {
     date: str(p.date, 40),
     savedAt: str(p.savedAt, 40),
     media: ['text','image','video'].includes(p.media) ? p.media : 'text',
+    videos: cleanVideos(p.videos),
     imageUrls: (Array.isArray(p.imageUrls) ? p.imageUrls : []).map(u => safeUrl(u, IMG_HOSTS)).filter(Boolean).slice(0, 30),
     links: (Array.isArray(p.links) ? p.links : []).map(u => safeUrl(u)).filter(Boolean).slice(0, 30),
     tags: (Array.isArray(p.tags) ? p.tags : []).filter(t => typeof t === 'string' && t.trim()).map(t => t.trim().slice(0, 40)).slice(0, 20),
@@ -416,7 +433,7 @@ function buildGroups(posts) {
   }
   return [...map.values()].map(g => {
     // 本文と画像がいちばん揃っている保存項目を代表にする
-    const main = [...g.posts].sort((a, b) => (b.imageUrls.length - a.imageUrls.length) || (b.text.length - a.text.length))[0];
+    const main = [...g.posts].sort((a, b) => (b.videos.length - a.videos.length) || (b.imageUrls.length - a.imageUrls.length) || (b.text.length - a.text.length))[0];
     const tags = [...new Set(g.posts.flatMap(p => p.tags))];
     const notes = [...new Set(g.posts.map(p => p.note).filter(Boolean))];
     const savedAt = Math.max(...g.posts.map(p => time(p.savedAt)));
@@ -556,6 +573,20 @@ function mediaHTML(g) {
   const line = imgs.length > 1 ? `<span class="media-count-line">画像 ${imgs.length}枚</span>` : '';
   return `${line}<div class="media" data-count="${count}">${cells}${badge}</div>`;
 }
+/* スマホ回線を考えて、2.5Mbps以下でいちばん高画質のmp4を選ぶ */
+function pickVariant(variants) {
+  const ok = variants.filter(v => !v.bitrate || v.bitrate <= 2500000);
+  return (ok.length ? ok[ok.length - 1] : variants[0]).url;
+}
+function videoHTML(g) {
+  const vids = g.main.videos || [];
+  return vids.map(v => {
+    const ratio = v.w && v.h ? ` style="aspect-ratio:${v.w} / ${v.h}"` : '';
+    const attrs = v.gif ? 'loop muted autoplay playsinline' : 'controls playsinline preload="none"';
+    const poster = v.poster ? ` poster="${esc(twimg(v.poster, 'medium'))}"` : '';
+    return `<div class="vbox"${ratio}><video class="pvideo" ${attrs}${poster} src="${esc(pickVariant(v.variants))}" data-url="${esc(g.main.url)}"></video>${v.gif ? '<span class="gif">GIF</span>' : ''}</div>`;
+  }).join('');
+}
 function cardHTML(g, terms) {
   const p = g.main;
   const initial = esc((p.author || p.username || '?').slice(0, 1).toUpperCase());
@@ -567,12 +598,12 @@ function cardHTML(g, terms) {
     p.viewCount != null ? `◉ ${fmtNum(p.viewCount)}` : '',
     fmtDate(p.date)
   ].filter(Boolean).join(' · ');
-  const video = p.media === 'video' ? `<div class="video-note">▶ 動画があります · <a href="${esc(p.url)}" target="_blank" rel="noopener noreferrer">Xで再生 ↗</a></div>` : '';
+  const video = p.media === 'video' && !(p.videos || []).length ? `<div class="video-note">▶ 動画があります · <a href="${esc(p.url)}" target="_blank" rel="noopener noreferrer">Xで再生 ↗</a></div>` : '';
   return `<article class="card">
 <div class="card-head"><div class="avatar">${avatar}</div><div class="who"><strong>${esc(p.author || p.username)}</strong><span>@${esc(p.username)}</span></div><div class="kinds">${kinds}</div></div>
 ${p.text ? `<p class="text${long ? ' clamp' : ''}">${highlight(p.text, terms)}</p>${long ? '<button type="button" class="more">続きを読む</button>' : ''}` : ''}
 ${g.notes.map(n => `<p class="note">メモ · ${esc(n)}</p>`).join('')}
-${mediaHTML(g)}${video}
+${mediaHTML(g)}${videoHTML(g)}${video}
 ${g.tags.length ? `<div class="card-tags">${g.tags.map(t => `<button type="button" data-tag="${esc(t)}">#${esc(t)}</button>`).join('')}</div>` : ''}
 <div class="card-foot"><span class="grow">${esc(stats)}</span><a class="open-x" href="${esc(p.url)}" target="_blank" rel="noopener noreferrer">Xで開く ↗</a></div>
 </article>`;
@@ -671,6 +702,11 @@ $('#list').addEventListener('click', e => {
 });
 $('#list').addEventListener('error', e => {
   const el = e.target;
+  if (el.tagName === 'VIDEO') {
+    const box = el.closest('.vbox');
+    if (box) { box.className = 'video-note'; box.removeAttribute('style'); box.innerHTML = `動画を再生できません · <a href="${esc(el.dataset.url)}" target="_blank" rel="noopener noreferrer">Xで再生 ↗</a>`; }
+    return;
+  }
   if (el.tagName !== 'IMG') return;
   if (el.dataset.initial !== undefined) { el.replaceWith(document.createTextNode(el.dataset.initial || '?')); return; }
   const cell = el.closest('.cell');
