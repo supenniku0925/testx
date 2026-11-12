@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="X引き出し">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="referrer" content="no-referrer">
+<meta name="theme-color" content="#f4f1ea" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#121316" media="(prefers-color-scheme: dark)">
+<link rel="apple-touch-icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIAAAACACAYAAADDPmHLAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAASNSURBVHhe7ZwvjN1GEIcDwy7qeu3cbiUHpiysJZUCK1WpAgoOhlQKDAxrVKk6FRUGBgYeqRR48GBg4IGCwCuoFFRdNfZV1Zvn956d85/1zveTPna7tmd+u96d9b07dxBCCCGEZpSr4mPB+/DM+fjKKs3z38RCxygLHR3V926S/Lbw8bIo4zUcQOLk45krw3Pv6/s6pslLbroo44uiDOdbDweDcWV838wY7vihjnVSktFelOHU+fBJPwSMg8ykSc4KNyP+St8wjE87wMKpDDidh9n1RRm/4d2+DK4MH4sqnOiczCZZpDDdL4/z4Xedm0lV1/XdwsfX+kZgQXw8m+WV0Cz0fLjYugFIgQ9VVT3QORtN7cgn+Unj4+VkMwHT/loI5zJYdf5upXabpy8EqTLqwrCpVbPaXx2yS9O5HCyZSpr9ZscFIG1k0N66asjUv3re6Jz2VnuoQ3l37XgfHunc9pIsJHRnsEJ8PNO5PSgZ/Sz88mHwLCDnz7oTWDXD1gJU/PJCdnI6xzsl9WTdAawfObrXue6UFBB0Y8iBcKpz3SlXhnfbjSEDPuhcd4q9f74cPCRqjnw7GkIeHPxegAVg3hz8BxT5A90IMuLQR6TyB1uNICde6JxvaOrTvx+ePLn+7defYQcSHx2zMZEKr875hqYuActD/vP3n7ADiY+O2ZhggMTBAMbBAMbBAMbBAMbBAMbBAMbBAMbBAMbBAMbBAMbBAMbBAMbJ3gAcB+8n++NgWBYMYBwMYBwMYBwMYBwMYBwMYBwMYBwMYJzJDPD9t19d//LT1zADEmsd/75MZgC5sb/++BFmQGKt498XDJABGMA4GMA4GMA4GMA4GMA4GMA4GMA4GMA4GMA4GMA4GMA4GMA4SRqA4+D5SPI4GNYBBjAOBjAOBjAOBjAOBjAOBjAOBjAOBjDO4gbgJ2L2k/1PxMhD6h9Ggv+R+OiYjQkGSBwMYBwMYBwMYBwMYBwMYBwMYBwMYBwMYBwMYBwMYBwMYJwUDPBSNxoTDLCfxQ3gfXimG40Jx8H7meE4+KXO+YZcFR/rRpAPMsB1zjfk3PFD3QjyQQa4zvmGjo7qe7oR5IMMcJ3zLTkfPumGkAcywHW+t1T4cKEbwvpxZfioc92pqWsBsBhvdK475X141NEYVo4rj5/qXO9U4eOl7gDWi6zr6rq+q/O8U4WPr3UnsF5cGd7pHO8VBaG8OFgA6pK4RncE68OV8f2g6f8/sRjMg0GLPy3ZOugOYT3I6Nc5HSTv6/tUBtfLwdp/H039jQBMRr/CTx85H992XABSxYeLz1r47ZJ0Ju+TrQtBevh4Ka9uncNbq6qqB3KgsHVBSAZZr8nuTeduNLVbw3ClLwzL0yb/y+90zkZXOxPwOkgJmZknHflazZdDPp7pG4H5kcE4yTu/j4oynOobgvmQ3dmoq/3PkUw9nBvMSzvqZ3jfD5FUnVgbTIx8p1GFEx37pCSHD7I+oIQ8JuHcleH54tP9ELXFo+OnUpKkfjCUcNVUX6tw0utL3jWo2T7Ka0Lw8RUobmIjcdKxQwghhEbWvy/hsyjgRrGCAAAAAElFTkSuQmCC">
+<link rel="icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIAAAACACAYAAADDPmHLAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAASNSURBVHhe7ZwvjN1GEIcDwy7qeu3cbiUHpiysJZUCK1WpAgoOhlQKDAxrVKk6FRUGBgYeqRR48GBg4IGCwCuoFFRdNfZV1Zvn956d85/1zveTPna7tmd+u96d9b07dxBCCCGEZpSr4mPB+/DM+fjKKs3z38RCxygLHR3V926S/Lbw8bIo4zUcQOLk45krw3Pv6/s6pslLbroo44uiDOdbDweDcWV838wY7vihjnVSktFelOHU+fBJPwSMg8ykSc4KNyP+St8wjE87wMKpDDidh9n1RRm/4d2+DK4MH4sqnOiczCZZpDDdL4/z4Xedm0lV1/XdwsfX+kZgQXw8m+WV0Cz0fLjYugFIgQ9VVT3QORtN7cgn+Unj4+VkMwHT/loI5zJYdf5upXabpy8EqTLqwrCpVbPaXx2yS9O5HCyZSpr9ZscFIG1k0N66asjUv3re6Jz2VnuoQ3l37XgfHunc9pIsJHRnsEJ8PNO5PSgZ/Sz88mHwLCDnz7oTWDXD1gJU/PJCdnI6xzsl9WTdAawfObrXue6UFBB0Y8iBcKpz3SlXhnfbjSEDPuhcd4q9f74cPCRqjnw7GkIeHPxegAVg3hz8BxT5A90IMuLQR6TyB1uNICde6JxvaOrTvx+ePLn+7defYQcSHx2zMZEKr875hqYuActD/vP3n7ADiY+O2ZhggMTBAMbBAMbBAMbBAMbBAMbBAMbBAMbBAMbBAMbBAMbBAMbBAMbJ3gAcB+8n++NgWBYMYBwMYBwMYBwMYBwMYBwMYBwMYBwMYJzJDPD9t19d//LT1zADEmsd/75MZgC5sb/++BFmQGKt498XDJABGMA4GMA4GMA4GMA4GMA4GMA4GMA4GMA4GMA4GMA4GMA4GMA4SRqA4+D5SPI4GNYBBjAOBjAOBjAOBjAOBjAOBjAOBjAOBjDO4gbgJ2L2k/1PxMhD6h9Ggv+R+OiYjQkGSBwMYBwMYBwMYBwMYBwMYBwMYBwMYBwMYBwMYBwMYBwMYJwUDPBSNxoTDLCfxQ3gfXimG40Jx8H7meE4+KXO+YZcFR/rRpAPMsB1zjfk3PFD3QjyQQa4zvmGjo7qe7oR5IMMcJ3zLTkfPumGkAcywHW+t1T4cKEbwvpxZfioc92pqWsBsBhvdK475X141NEYVo4rj5/qXO9U4eOl7gDWi6zr6rq+q/O8U4WPr3UnsF5cGd7pHO8VBaG8OFgA6pK4RncE68OV8f2g6f8/sRjMg0GLPy3ZOugOYT3I6Nc5HSTv6/tUBtfLwdp/H039jQBMRr/CTx85H992XABSxYeLz1r47ZJ0Ju+TrQtBevh4Ka9uncNbq6qqB3KgsHVBSAZZr8nuTeduNLVbw3ClLwzL0yb/y+90zkZXOxPwOkgJmZknHflazZdDPp7pG4H5kcE4yTu/j4oynOobgvmQ3dmoq/3PkUw9nBvMSzvqZ3jfD5FUnVgbTIx8p1GFEx37pCSHD7I+oIQ8JuHcleH54tP9ELXFo+OnUpKkfjCUcNVUX6tw0utL3jWo2T7Ka0Lw8RUobmIjcdKxQwghhEbWvy/hsyjgRrGCAAAAAElFTkSuQmCC">
+<title>X引き出し ビューアー</title>
+<style>
+:root {
+  color-scheme: light;
+  --paper: #f4f1ea; --surface: #fffdf8; --surface-2: #f8f5ee; --surface-3: #efebe1;
+  --line: #e2dcce; --line-soft: #eeeae0;
+  --ink: #1a1915; --ink-2: #44413a; --muted: #7b7566; --faint: #a39b8a;
+  --brass: #b07512; --brass-ink: #7d510a; --brass-soft: #fbf0d9; --brass-line: #ecd5a6;
+  --rose: #c04a66; --rose-soft: #fdeaee; --teal: #1f8679; --teal-soft: #e2f3f0;
+  --bad: #a8362f; --btn: #1f1d18; --on-btn: #fffdf8;
+  --shadow: 0 1px 2px rgba(26,25,21,.05), 0 6px 18px rgba(26,25,21,.05);
+  --sans: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Yu Gothic UI", Meiryo, system-ui, sans-serif;
+  --safe-t: env(safe-area-inset-top, 0px); --safe-b: env(safe-area-inset-bottom, 0px);
+  --safe-l: env(safe-area-inset-left, 0px); --safe-r: env(safe-area-inset-right, 0px);
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    color-scheme: dark;
+    --paper: #121316; --surface: #1a1c20; --surface-2: #212429; --surface-3: #292d33;
+    --line: #2f343b; --line-soft: #272b31;
+    --ink: #f1ede4; --ink-2: #d3cdc1; --muted: #968f82; --faint: #6f6a60;
+    --brass: #f0b454; --brass-ink: #f7cd86; --brass-soft: #30261459; --brass-line: #4d3c1d;
+    --rose: #e8899f; --rose-soft: #3a222959; --teal: #58c9b9; --teal-soft: #16322e59;
+    --bad: #f0a39a; --btn: #f0b454; --on-btn: #171511;
+    --shadow: 0 1px 2px rgba(0,0,0,.3);
+  }
+}
+* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+html, body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--sans); }
+body { min-height: 100vh; padding-left: var(--safe-l); padding-right: var(--safe-r); }
+button, input, select { font: inherit; color: inherit; }
+button { cursor: pointer; }
+a { color: inherit; }
+[hidden] { display: none !important; }
+
+/* ── ヘッダー ── */
+.top {
+  position: sticky; top: 0; z-index: 20;
+  padding: calc(var(--safe-t) + 10px) 14px 10px;
+  background: color-mix(in srgb, var(--paper) 88%, transparent);
+  -webkit-backdrop-filter: saturate(1.4) blur(14px); backdrop-filter: saturate(1.4) blur(14px);
+  border-bottom: 1px solid var(--line-soft);
+}
+.top-row { display: flex; align-items: center; gap: 10px; max-width: 760px; margin: 0 auto; }
+.brand { font-weight: 800; font-size: 17px; letter-spacing: -.02em; white-space: nowrap; }
+.brand small { display: block; font-size: 10.5px; font-weight: 500; color: var(--faint); letter-spacing: 0; margin-top: 1px; }
+.top-row .grow { flex: 1; }
+.icon-btn {
+  min-width: 38px; height: 38px; padding: 0 12px; border-radius: 999px;
+  border: 1px solid var(--line); background: var(--surface); font-size: 13px; font-weight: 600;
+}
+.search-wrap { max-width: 760px; margin: 10px auto 0; position: relative; }
+#search {
+  width: 100%; height: 42px; padding: 0 38px 0 14px; border-radius: 12px;
+  border: 1px solid var(--line); background: var(--surface); font-size: 16px; outline: none;
+}
+#search:focus { border-color: var(--brass); }
+#clearSearch { position: absolute; right: 6px; top: 6px; width: 30px; height: 30px; border: 0; border-radius: 50%; background: var(--surface-3); color: var(--muted); font-size: 14px; }
+.tabs { display: flex; gap: 6px; max-width: 760px; margin: 10px auto 0; overflow-x: auto; scrollbar-width: none; }
+.tabs::-webkit-scrollbar { display: none; }
+.tab {
+  flex: none; padding: 7px 13px; border-radius: 999px; border: 1px solid var(--line);
+  background: var(--surface); font-size: 13px; font-weight: 600; color: var(--ink-2);
+}
+.tab b { font-weight: 500; color: var(--faint); margin-left: 4px; font-size: 11.5px; }
+.tab[aria-pressed="true"] { background: var(--btn); border-color: var(--btn); color: var(--on-btn); }
+.tab[aria-pressed="true"] b { color: inherit; opacity: .7; }
+.tool-row { display: flex; gap: 8px; align-items: center; max-width: 760px; margin: 8px auto 0; }
+.tool-row select { height: 34px; padding: 0 8px; border-radius: 10px; border: 1px solid var(--line); background: var(--surface); font-size: 13px; }
+.tool-row .count { margin-left: auto; font-size: 12px; color: var(--muted); }
+
+/* ── タグ ── */
+.tags { display: flex; gap: 6px; max-width: 760px; margin: 8px auto 0; overflow-x: auto; scrollbar-width: none; padding-bottom: 2px; }
+.tags::-webkit-scrollbar { display: none; }
+.tag-chip {
+  flex: none; display: inline-flex; align-items: center; gap: 5px; padding: 5px 10px; border-radius: 999px;
+  border: 1px solid var(--line); background: var(--surface-2); font-size: 12px; color: var(--ink-2);
+}
+.tag-chip i { width: 7px; height: 7px; border-radius: 50%; background: var(--faint); }
+.tag-chip em { font-style: normal; color: var(--faint); font-size: 11px; }
+.tag-chip[aria-pressed="true"] { border-color: var(--brass); background: var(--brass-soft); color: var(--brass-ink); }
+
+/* ── 一覧 ── */
+main { max-width: 760px; margin: 0 auto; padding: 12px 12px calc(var(--safe-b) + 40px); }
+.list { display: grid; gap: 12px; }
+@media (min-width: 900px) {
+  main, .top-row, .search-wrap, .tabs, .tool-row, .tags { max-width: 1180px; }
+  .list { grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); align-items: start; }
+}
+.card {
+  background: var(--surface); border: 1px solid var(--line-soft); border-radius: 16px;
+  padding: 13px 14px 11px; box-shadow: var(--shadow);
+}
+.card-head { display: flex; gap: 10px; align-items: center; }
+.avatar {
+  width: 38px; height: 38px; border-radius: 50%; flex: none; overflow: hidden;
+  background: var(--surface-3); display: grid; place-items: center; font-weight: 700; color: var(--muted);
+}
+.avatar img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.who { min-width: 0; flex: 1; }
+.who strong { display: block; font-size: 14.5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.who span { display: block; font-size: 12px; color: var(--faint); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.kinds { display: flex; gap: 4px; flex: none; }
+.kind { font-size: 10.5px; font-weight: 700; padding: 3px 7px; border-radius: 999px; }
+.kind.bookmark { background: var(--brass-soft); color: var(--brass-ink); }
+.kind.like { background: var(--rose-soft); color: var(--rose); }
+.kind.saved { background: var(--teal-soft); color: var(--teal); }
+.text { margin: 10px 0 0; font-size: 15px; line-height: 1.65; white-space: pre-wrap; overflow-wrap: anywhere; }
+.text a { color: var(--brass-ink); text-decoration: none; }
+.text mark { background: var(--brass-soft); color: inherit; border-radius: 3px; padding: 0 1px; }
+.text.clamp { display: -webkit-box; -webkit-line-clamp: 9; -webkit-box-orient: vertical; overflow: hidden; }
+.more { margin-top: 4px; border: 0; background: none; padding: 2px 0; color: var(--brass-ink); font-size: 13px; font-weight: 600; }
+.note { margin: 9px 0 0; padding: 8px 10px; border-radius: 10px; background: var(--surface-2); font-size: 13px; color: var(--ink-2); line-height: 1.55; white-space: pre-wrap; }
+.card-tags { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 9px; }
+.card-tags button { border: 1px solid var(--line); background: transparent; border-radius: 999px; padding: 3px 9px; font-size: 11.5px; color: var(--muted); }
+.card-foot { display: flex; align-items: center; gap: 10px; margin-top: 10px; padding-top: 9px; border-top: 1px solid var(--line-soft); font-size: 12px; color: var(--faint); }
+.card-foot .grow { flex: 1; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.open-x { flex: none; text-decoration: none; font-weight: 700; color: var(--brass-ink); padding: 4px 2px; }
+.video-note { margin-top: 10px; padding: 9px 11px; border-radius: 10px; border: 1px dashed var(--line); font-size: 12.5px; color: var(--muted); }
+.video-note a { color: var(--brass-ink); font-weight: 700; text-decoration: none; }
+
+/* ── 画像グリッド ── */
+.media { position: relative; display: grid; gap: 3px; margin-top: 10px; border-radius: 13px; overflow: hidden; border: 1px solid var(--line-soft); background: var(--surface-2); }
+.media[data-count="2"], .media[data-count="3"], .media[data-count="4"] { grid-template-columns: 1fr 1fr; }
+.media[data-count="3"] { grid-template-rows: 1fr 1fr; aspect-ratio: 1 / 1; }
+.media[data-count="3"] .cell:first-child { grid-row: span 2; }
+.cell { position: relative; display: block; min-width: 0; min-height: 0; padding: 0; border: 0; background: var(--surface-2); overflow: hidden; }
+.cell img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.media[data-count="1"] .cell img { height: auto; max-height: 520px; object-fit: contain; margin: 0 auto; }
+.media[data-count="2"] .cell { aspect-ratio: 4 / 5; }
+.media[data-count="4"] .cell { aspect-ratio: 1 / 1; }
+.cell.broken { display: grid; place-items: center; min-height: 100px; font-size: 12px; color: var(--faint); }
+.more-count { position: absolute; inset: 0; display: grid; place-items: center; background: rgba(0,0,0,.5); color: #fff; font-size: 24px; font-weight: 700; }
+.badge { position: absolute; right: 7px; bottom: 7px; padding: 2px 8px; border-radius: 999px; background: rgba(0,0,0,.6); color: #fff; font-size: 11px; pointer-events: none; }
+
+/* ── 空・読み込み ── */
+.welcome { max-width: 520px; margin: 40px auto 0; text-align: center; padding: 0 10px; }
+.welcome h1 { font-size: 22px; margin: 10px 0 8px; letter-spacing: -.02em; }
+.welcome p { color: var(--muted); font-size: 14px; line-height: 1.7; margin: 0 0 8px; }
+.welcome ol { text-align: left; color: var(--ink-2); font-size: 13.5px; line-height: 1.7; padding-left: 1.3em; margin: 16px 0; }
+.primary { display: inline-block; padding: 13px 22px; border-radius: 999px; border: 0; background: var(--btn); color: var(--on-btn); font-weight: 700; font-size: 15px; }
+.ghost { padding: 10px 16px; border-radius: 999px; border: 1px solid var(--line); background: var(--surface); font-size: 13.5px; font-weight: 600; }
+.danger { color: var(--bad); }
+.status { margin: 14px auto 0; max-width: 520px; padding: 10px 12px; border-radius: 10px; font-size: 13px; background: var(--surface-2); color: var(--ink-2); text-align: center; }
+.status.error { color: var(--bad); }
+.empty { text-align: center; color: var(--muted); padding: 50px 10px; font-size: 14px; }
+.sentinel { height: 1px; }
+.drop-hint { position: fixed; inset: 12px; z-index: 50; border: 3px dashed var(--brass); border-radius: 20px; display: grid; place-items: center; background: color-mix(in srgb, var(--paper) 85%, transparent); font-size: 18px; font-weight: 700; color: var(--brass-ink); pointer-events: none; }
+
+/* ── メニュー ── */
+.sheet-back { position: fixed; inset: 0; z-index: 40; background: rgba(0,0,0,.4); }
+.sheet {
+  position: fixed; left: 0; right: 0; bottom: 0; z-index: 41; max-width: 560px; margin: 0 auto;
+  background: var(--surface); border-radius: 20px 20px 0 0; padding: 18px 18px calc(var(--safe-b) + 18px);
+  box-shadow: 0 -10px 40px rgba(0,0,0,.2);
+}
+.sheet h2 { margin: 0 0 6px; font-size: 17px; }
+.sheet p { margin: 0 0 14px; font-size: 13px; color: var(--muted); line-height: 1.6; }
+.sheet .actions { display: grid; gap: 8px; }
+
+/* ── ビューアー ── */
+.viewer { position: fixed; inset: 0; z-index: 60; background: #050506; display: flex; flex-direction: column; touch-action: none; }
+.viewer-stage { flex: 1; position: relative; display: grid; place-items: center; overflow: hidden; padding: calc(var(--safe-t) + 8px) 8px 0; }
+.viewer-stage img { max-width: 100%; max-height: 100%; object-fit: contain; user-select: none; -webkit-user-drag: none; transition: transform .18s ease; }
+.viewer-bar { display: flex; align-items: center; justify-content: center; gap: 16px; padding: 12px 14px calc(var(--safe-b) + 12px); color: #eee; font-size: 13px; }
+.viewer-bar a { color: #f7cd86; text-decoration: none; }
+.viewer-bar button { padding: 8px 15px; border-radius: 999px; border: 1px solid rgba(255,255,255,.28); background: transparent; color: #fff; }
+.v-nav { position: absolute; top: 50%; transform: translateY(-50%); width: 44px; height: 44px; border-radius: 50%; border: 1px solid rgba(255,255,255,.22); background: rgba(0,0,0,.5); color: #fff; font-size: 26px; line-height: 1; }
+.v-nav.prev { left: 10px; } .v-nav.next { right: 10px; }
+@media (hover: none) { .v-nav { display: none; } }
+</style>
+</head>
+<body>
+
+<header class="top" id="top" hidden>
+  <div class="top-row">
+    <div class="brand">X引き出し<small id="dataInfo"></small></div>
+    <div class="grow"></div>
+    <button class="icon-btn" id="menuBtn" type="button" aria-label="データの入れ替え">データ</button>
+  </div>
+  <div class="search-wrap">
+    <input id="search" type="search" placeholder="検索（from: や tag: も使えます）" autocomplete="off" enterkeyhint="search">
+    <button id="clearSearch" type="button" aria-label="検索をクリア" hidden>✕</button>
+  </div>
+  <div class="tabs" id="tabs" role="group" aria-label="種類">
+    <button class="tab" data-kind="all" aria-pressed="true">すべて<b id="cAll">0</b></button>
+    <button class="tab" data-kind="bookmark" aria-pressed="false">ブックマーク<b id="cBookmark">0</b></button>
+    <button class="tab" data-kind="like" aria-pressed="false">いいね<b id="cLike">0</b></button>
+    <button class="tab" data-kind="saved" aria-pressed="false">手動保存<b id="cSaved">0</b></button>
+    <button class="tab" data-kind="later" aria-pressed="false">あとで読む<b id="cLater">0</b></button>
+  </div>
+  <div class="tool-row">
+    <select id="sort" aria-label="並び替え">
+      <option value="saved">保存が新しい順</option>
+      <option value="posted">投稿が新しい順</option>
+      <option value="oldest">投稿が古い順</option>
+      <option value="likes">いいねが多い順</option>
+    </select>
+    <select id="mediaFilter" aria-label="メディア">
+      <option value="all">すべての形式</option>
+      <option value="image">画像あり</option>
+      <option value="video">動画あり</option>
+      <option value="text">テキストのみ</option>
+    </select>
+    <span class="count" id="resultCount"></span>
+  </div>
+  <div class="tags" id="tagBar"></div>
+</header>
+
+<main>
+  <section class="welcome" id="welcome">
+    <svg width="54" height="54" viewBox="0 0 54 54" aria-hidden="true"><rect x="5" y="7" width="44" height="40" rx="9" fill="none" stroke="currentColor" stroke-width="3" opacity=".35"/><rect x="5" y="20" width="44" height="14" rx="3" fill="#b07512"/><rect x="21" y="25" width="12" height="4" rx="2" fill="#fffdf8"/></svg>
+    <h1>X引き出し ビューアー</h1>
+    <p>PCのX引き出しで書き出したバックアップを、スマホで見るためのページです。</p>
+    <ol>
+      <li>PCのX引き出しで「↓ JSONバックアップ」を押して書き出す</li>
+      <li>そのファイルをiPhoneに送る（Discord、iCloud Drive など）</li>
+      <li>下のボタンからファイルを選ぶ</li>
+    </ol>
+    <button class="primary" type="button" id="pickBtn">バックアップを選ぶ</button>
+    <p style="margin-top:14px;font-size:12px">データはこの端末のブラウザ内だけで読み込みます。どこにも送信されません。</p>
+  </section>
+  <div class="status" id="status" hidden></div>
+  <div class="list" id="list"></div>
+  <div class="empty" id="empty" hidden>条件に合うポストがありません</div>
+  <div class="sentinel" id="sentinel"></div>
+</main>
+
+<input type="file" id="fileInput" accept=".json,application/json" hidden>
+
+<div class="sheet-back" id="sheetBack" hidden></div>
+<section class="sheet" id="sheet" hidden aria-label="データ">
+  <h2>データ</h2>
+  <p id="sheetInfo"></p>
+  <div class="actions">
+    <button class="primary" type="button" id="replaceBtn">新しいバックアップを読み込む</button>
+    <button class="ghost danger" type="button" id="clearBtn">この端末からデータを消す</button>
+    <button class="ghost" type="button" id="closeSheet">閉じる</button>
+  </div>
+</section>
+
+<div class="viewer" id="viewer" hidden role="dialog" aria-label="画像ビューアー">
+  <div class="viewer-stage" id="viewerStage">
+    <button class="v-nav prev" id="vPrev" type="button" aria-label="前の画像">‹</button>
+    <img id="viewerImg" alt="">
+    <button class="v-nav next" id="vNext" type="button" aria-label="次の画像">›</button>
+  </div>
+  <div class="viewer-bar">
+    <span id="vCount"></span>
+    <a id="vOrig" target="_blank" rel="noopener noreferrer">原寸で開く ↗</a>
+    <button type="button" id="vClose">閉じる</button>
+  </div>
+</div>
+
+<div class="drop-hint" id="dropHint" hidden>ここにバックアップをドロップ</div>
+
+<script>
+'use strict';
+const $ = s => document.querySelector(s);
+const PAGE = 30;
+const KIND_LABEL = { bookmark:'ブックマーク', like:'いいね', saved:'手動保存' };
+
+let groups = [];          // 同じポストIDをまとめたもの
+let tagColors = new Map();
+let meta = null;          // { exportedAt, loadedAt, count }
+let filtered = [];
+let shown = 0;
+const state = { kind:'all', query:'', tags:new Set(), sort:'saved', media:'all' };
+
+/* ── 共通 ── */
+const esc = v => String(v ?? '').replace(/[&<>"']/g, c => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' }[c]));
+const safeColor = v => /^#[0-9a-fA-F]{6}$/.test(String(v || '')) ? v : '';
+const time = v => { const t = Date.parse(v || ''); return Number.isNaN(t) ? 0 : t; };
+function safeUrl(value, hosts) {
+  try {
+    const url = new URL(value);
+    if (url.protocol !== 'https:') return '';
+    if (hosts && !hosts.includes(url.hostname)) return '';
+    return url.href;
+  } catch { return ''; }
+}
+const IMG_HOSTS = ['pbs.twimg.com', 'ton.twimg.com', 'abs.twimg.com'];
+/* pbs.twimg.com の画像に表示サイズを指定する */
+function twimg(value, size) {
+  const href = safeUrl(value, IMG_HOSTS);
+  if (!href) return '';
+  const url = new URL(href);
+  if (url.hostname !== 'pbs.twimg.com' || !url.pathname.startsWith('/media/')) return href;
+  const ext = /\.(jpe?g|png|webp|gif)$/i.exec(url.pathname);
+  if (ext) {
+    url.pathname = url.pathname.slice(0, -ext[0].length);
+    url.searchParams.set('format', ext[1].toLowerCase() === 'jpeg' ? 'jpg' : ext[1].toLowerCase());
+  }
+  url.searchParams.set('name', size);
+  return url.href;
+}
+function setStatus(message, error = false) {
+  const el = $('#status');
+  el.textContent = message || '';
+  el.hidden = !message;
+  el.classList.toggle('error', !!error);
+}
+function fmtDate(v) {
+  const t = time(v);
+  return t ? new Date(t).toLocaleDateString('ja-JP') : '';
+}
+function fmtNum(n) {
+  if (typeof n !== 'number' || !Number.isFinite(n)) return '';
+  if (n >= 10000) return `${(n / 10000).toFixed(n >= 100000 ? 0 : 1)}万`;
+  return n.toLocaleString('ja-JP');
+}
+
+/* ── 端末内の保存(IndexedDB)。使えない環境でも動くようにする ── */
+function idb() {
+  return new Promise((resolve, reject) => {
+    try {
+      const req = indexedDB.open('x-drawer-viewer', 1);
+      req.onupgradeneeded = () => req.result.createObjectStore('data');
+      req.onsuccess = () => resolve(req.result);
+      req.onerror = () => reject(req.error);
+    } catch (e) { reject(e); }
+  });
+}
+async function cacheSave(payload) {
+  try {
+    const db = await idb();
+    await new Promise((res, rej) => { const tx = db.transaction('data', 'readwrite'); tx.objectStore('data').put(payload, 'backup'); tx.oncomplete = res; tx.onerror = () => rej(tx.error); });
+    db.close();
+    return true;
+  } catch { return false; }
+}
+async function cacheLoad() {
+  try {
+    const db = await idb();
+    const value = await new Promise((res, rej) => { const r = db.transaction('data').objectStore('data').get('backup'); r.onsuccess = () => res(r.result); r.onerror = () => rej(r.error); });
+    db.close();
+    return value || null;
+  } catch { return null; }
+}
+async function cacheClear() {
+  try {
+    const db = await idb();
+    await new Promise((res, rej) => { const tx = db.transaction('data', 'readwrite'); tx.objectStore('data').delete('backup'); tx.oncomplete = res; tx.onerror = () => rej(tx.error); });
+    db.close();
+  } catch {}
+}
+
+/* ── バックアップの読み込み ── */
+function cleanPost(p) {
+  if (!p || typeof p !== 'object') return null;
+  const id = String(p.id || '');
+  if (!/^\d+$/.test(id)) return null;
+  const collection = ['bookmark','like','saved'].includes(p.collection) ? p.collection : null;
+  if (!collection) return null;
+  const username = String(p.username || '').replace(/[^A-Za-z0-9_]/g, '').slice(0, 15);
+  const str = (v, n) => typeof v === 'string' ? v.slice(0, n) : '';
+  const num = v => (typeof v === 'number' && Number.isFinite(v) && v >= 0) ? v : null;
+  return {
+    id, collection, username,
+    url: safeUrl(p.url, ['x.com','twitter.com']) || (username ? `https://x.com/${username}/status/${id}` : `https://x.com/i/status/${id}`),
+    author: str(p.author, 100) || username,
+    avatarUrl: safeUrl(p.avatarUrl, IMG_HOSTS),
+    text: str(p.text, 100000),
+    note: str(p.note, 2000),
+    date: str(p.date, 40),
+    savedAt: str(p.savedAt, 40),
+    media: ['text','image','video'].includes(p.media) ? p.media : 'text',
+    imageUrls: (Array.isArray(p.imageUrls) ? p.imageUrls : []).map(u => safeUrl(u, IMG_HOSTS)).filter(Boolean).slice(0, 30),
+    links: (Array.isArray(p.links) ? p.links : []).map(u => safeUrl(u)).filter(Boolean).slice(0, 30),
+    tags: (Array.isArray(p.tags) ? p.tags : []).filter(t => typeof t === 'string' && t.trim()).map(t => t.trim().slice(0, 40)).slice(0, 20),
+    likeCount: num(p.likeCount), viewCount: num(p.viewCount),
+    readingState: ['later','read'].includes(p.readingState) ? p.readingState : 'none'
+  };
+}
+function parseBackup(json) {
+  if (!json || json.format !== 'x-drawer-backup' || !Array.isArray(json.posts)) throw new Error('X引き出しのバックアップファイルではないようです。');
+  const posts = json.posts.map(cleanPost).filter(Boolean);
+  const tags = (Array.isArray(json.tags) ? json.tags : []).filter(t => t && typeof t.name === 'string').map(t => ({ name: t.name.slice(0, 40), color: safeColor(t.color) }));
+  return { exportedAt: typeof json.exportedAt === 'string' ? json.exportedAt : '', posts, tags };
+}
+function buildGroups(posts) {
+  const map = new Map();
+  for (const p of posts) {
+    let g = map.get(p.id);
+    if (!g) { g = { id: p.id, posts: [], kinds: new Set() }; map.set(p.id, g); }
+    g.posts.push(p);
+    g.kinds.add(p.collection);
+  }
+  return [...map.values()].map(g => {
+    // 本文と画像がいちばん揃っている保存項目を代表にする
+    const main = [...g.posts].sort((a, b) => (b.imageUrls.length - a.imageUrls.length) || (b.text.length - a.text.length))[0];
+    const tags = [...new Set(g.posts.flatMap(p => p.tags))];
+    const notes = [...new Set(g.posts.map(p => p.note).filter(Boolean))];
+    const savedAt = Math.max(...g.posts.map(p => time(p.savedAt)));
+    const later = g.posts.some(p => p.readingState === 'later');
+    const hay = [main.text, main.author, main.username, ...notes, ...tags].join('\n').toLowerCase();
+    return { ...g, main, tags, notes, savedAt, posted: time(main.date), later, hay };
+  });
+}
+function applyData(data) {
+  groups = buildGroups(data.posts);
+  tagColors = new Map(data.tags.map(t => [t.name, t.color]));
+  meta = { exportedAt: data.exportedAt, loadedAt: data.loadedAt || new Date().toISOString(), count: data.posts.length };
+  $('#welcome').hidden = true;
+  $('#top').hidden = false;
+  $('#dataInfo').textContent = `${fmtDate(meta.exportedAt) || '日付不明'} のバックアップ · ${groups.length.toLocaleString('ja-JP')}件`;
+  renderCounts();
+  renderTags();
+  refresh();
+}
+async function loadFile(file) {
+  if (!file) return;
+  setStatus('読み込み中…');
+  try {
+    if (file.size > 200 * 1024 * 1024) throw new Error('ファイルが大きすぎます（200MBまで）。');
+    const json = JSON.parse(await file.text());
+    const data = parseBackup(json);
+    if (!data.posts.length) throw new Error('ポストが1件も入っていません。');
+    data.loadedAt = new Date().toISOString();
+    applyData(data);
+    const saved = await cacheSave(data);
+    setStatus(saved ? '' : 'この端末に保存できなかったため、次に開いたときはもう一度ファイルを選んでください。');
+    window.scrollTo(0, 0);
+  } catch (e) {
+    setStatus(`読み込めませんでした: ${e.message}`, true);
+  }
+}
+
+/* ── 検索 ── */
+function parseQuery(q) {
+  const terms = [];
+  const re = /(-?)(?:(from|tag|has|is):)?(?:"([^"]*)"|(\S+))/gi;
+  let m;
+  while ((m = re.exec(q))) {
+    const value = (m[3] ?? m[4] ?? '').trim();
+    if (!value) continue;
+    terms.push({ neg: m[1] === '-', field: (m[2] || '').toLowerCase(), value: value.toLowerCase() });
+  }
+  return terms;
+}
+function matchTerm(g, t) {
+  const v = t.value;
+  switch (t.field) {
+    case 'from': { const h = v.replace(/^@/, ''); return g.main.username.toLowerCase().includes(h) || g.main.author.toLowerCase().includes(h); }
+    case 'tag': return g.tags.some(tag => tag.toLowerCase() === v);
+    case 'has':
+      if (v === 'image' || v === '画像') return g.main.imageUrls.length > 0;
+      if (v === 'video' || v === '動画') return g.main.media === 'video';
+      if (v === 'note' || v === 'メモ') return g.notes.length > 0;
+      if (v === 'link' || v === 'リンク') return g.main.links.length > 0;
+      return false;
+    case 'is':
+      if (v === 'later') return g.later;
+      if (v === 'read') return g.posts.some(p => p.readingState === 'read');
+      return false;
+    default: return g.hay.includes(v);
+  }
+}
+function refresh() {
+  const terms = parseQuery(state.query);
+  filtered = groups.filter(g => {
+    if (state.kind === 'later' ? !g.later : state.kind !== 'all' && !g.kinds.has(state.kind)) return false;
+    if (state.media === 'image' && !g.main.imageUrls.length) return false;
+    if (state.media === 'video' && g.main.media !== 'video') return false;
+    if (state.media === 'text' && (g.main.imageUrls.length || g.main.media === 'video')) return false;
+    for (const tag of state.tags) if (!g.tags.includes(tag)) return false;
+    for (const t of terms) if (matchTerm(g, t) === t.neg) return false;
+    return true;
+  });
+  const by = {
+    saved: (a, b) => b.savedAt - a.savedAt,
+    posted: (a, b) => b.posted - a.posted,
+    oldest: (a, b) => (a.posted || Infinity) - (b.posted || Infinity),
+    likes: (a, b) => (b.main.likeCount ?? -1) - (a.main.likeCount ?? -1)
+  }[state.sort];
+  filtered.sort(by);
+  $('#resultCount').textContent = `${filtered.length.toLocaleString('ja-JP')}件`;
+  $('#list').innerHTML = '';
+  shown = 0;
+  $('#empty').hidden = filtered.length > 0;
+  renderMore();
+}
+
+/* ── 描画 ── */
+function renderCounts() {
+  const count = k => groups.filter(g => g.kinds.has(k)).length;
+  $('#cAll').textContent = groups.length;
+  $('#cBookmark').textContent = count('bookmark');
+  $('#cLike').textContent = count('like');
+  $('#cSaved').textContent = count('saved');
+  $('#cLater').textContent = groups.filter(g => g.later).length;
+}
+function renderTags() {
+  const counts = new Map();
+  for (const g of groups) for (const t of g.tags) counts.set(t, (counts.get(t) || 0) + 1);
+  const names = [...counts.keys()].sort((a, b) => counts.get(b) - counts.get(a) || a.localeCompare(b, 'ja'));
+  $('#tagBar').hidden = !names.length;
+  $('#tagBar').innerHTML = names.map(n => {
+    const c = tagColors.get(n);
+    return `<button type="button" class="tag-chip" data-tag="${esc(n)}" aria-pressed="${state.tags.has(n)}"><i${c ? ` style="background:${c}"` : ''}></i>${esc(n)}<em>${counts.get(n)}</em></button>`;
+  }).join('');
+}
+function highlight(text, terms) {
+  // URLはリンクに、検索語はマーカーにする
+  const words = terms.filter(t => !t.neg && !t.field && t.value).map(t => t.value);
+  const parts = String(text).split(/(https?:\/\/[^\s]+)/g);
+  return parts.map((part, i) => {
+    if (i % 2 === 1) {
+      const href = safeUrl(part);
+      return href ? `<a href="${esc(href)}" target="_blank" rel="noopener noreferrer">${esc(part.length > 40 ? part.slice(0, 40) + '…' : part)}</a>` : esc(part);
+    }
+    let html = esc(part);
+    for (const w of words) {
+      const ew = esc(w).replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      if (ew) html = html.replace(new RegExp(ew, 'gi'), s => `<mark>${s}</mark>`);
+    }
+    return html;
+  }).join('');
+}
+function mediaHTML(g) {
+  const imgs = g.main.imageUrls;
+  if (!imgs.length) return '';
+  const show = imgs.slice(0, 4);
+  const extra = imgs.length - show.length;
+  const size = show.length === 1 ? 'large' : 'medium';
+  const cells = show.map((u, i) => `<button type="button" class="cell" data-id="${esc(g.id)}" data-index="${i}" aria-label="画像 ${i + 1}/${imgs.length} を拡大"><img src="${esc(twimg(u, size))}" alt="" loading="lazy" decoding="async">${i === show.length - 1 && extra > 0 ? `<span class="more-count">+${extra}</span>` : ''}</button>`).join('');
+  const badge = imgs.length > 1 && !extra ? `<span class="badge">${imgs.length}枚</span>` : '';
+  return `<div class="media" data-count="${show.length}">${cells}${badge}</div>`;
+}
+function cardHTML(g, terms) {
+  const p = g.main;
+  const initial = esc((p.author || p.username || '?').slice(0, 1).toUpperCase());
+  const avatar = p.avatarUrl ? `<img src="${esc(p.avatarUrl)}" alt="" loading="lazy" data-initial="${initial}">` : initial;
+  const kinds = ['bookmark','like','saved'].filter(k => g.kinds.has(k)).map(k => `<span class="kind ${k}">${KIND_LABEL[k]}</span>`).join('');
+  const long = p.text.length > 280 || p.text.split('\n').length > 9;
+  const stats = [
+    p.likeCount != null ? `♥ ${fmtNum(p.likeCount)}` : '',
+    p.viewCount != null ? `◉ ${fmtNum(p.viewCount)}` : '',
+    fmtDate(p.date)
+  ].filter(Boolean).join(' · ');
+  const video = p.media === 'video' ? `<div class="video-note">▶ 動画があります · <a href="${esc(p.url)}" target="_blank" rel="noopener noreferrer">Xで再生 ↗</a></div>` : '';
+  return `<article class="card">
+<div class="card-head"><div class="avatar">${avatar}</div><div class="who"><strong>${esc(p.author || p.username)}</strong><span>@${esc(p.username)}</span></div><div class="kinds">${kinds}</div></div>
+${p.text ? `<p class="text${long ? ' clamp' : ''}">${highlight(p.text, terms)}</p>${long ? '<button type="button" class="more">続きを読む</button>' : ''}` : ''}
+${g.notes.map(n => `<p class="note">メモ · ${esc(n)}</p>`).join('')}
+${mediaHTML(g)}${video}
+${g.tags.length ? `<div class="card-tags">${g.tags.map(t => `<button type="button" data-tag="${esc(t)}">#${esc(t)}</button>`).join('')}</div>` : ''}
+<div class="card-foot"><span class="grow">${esc(stats)}</span><a class="open-x" href="${esc(p.url)}" target="_blank" rel="noopener noreferrer">Xで開く ↗</a></div>
+</article>`;
+}
+function renderMore() {
+  if (shown >= filtered.length) return;
+  const terms = parseQuery(state.query);
+  const next = filtered.slice(shown, shown + PAGE);
+  $('#list').insertAdjacentHTML('beforeend', next.map(g => cardHTML(g, terms)).join(''));
+  shown += next.length;
+}
+new IntersectionObserver(entries => {
+  if (entries.some(e => e.isIntersecting)) renderMore();
+}, { rootMargin: '1200px 0px' }).observe($('#sentinel'));
+
+/* ── 画像ビューアー ── */
+const viewer = { images: [], index: 0 };
+function showImage() {
+  const { images, index } = viewer;
+  const img = $('#viewerImg');
+  img.style.transform = '';
+  img.dataset.fallback = twimg(images[index], 'medium');
+  img.src = twimg(images[index], 'large');
+  $('#vCount').textContent = `${index + 1} / ${images.length}`;
+  $('#vOrig').href = twimg(images[index], 'orig');
+  $('#vPrev').hidden = $('#vNext').hidden = images.length < 2;
+}
+function openViewer(images, index) {
+  viewer.images = images;
+  viewer.index = Math.max(0, Math.min(index, images.length - 1));
+  showImage();
+  $('#viewer').hidden = false;
+  document.body.style.overflow = 'hidden';
+}
+function closeViewer() {
+  $('#viewer').hidden = true;
+  $('#viewerImg').removeAttribute('src');
+  document.body.style.overflow = '';
+}
+function step(d) {
+  if (viewer.images.length < 2) return;
+  viewer.index = (viewer.index + d + viewer.images.length) % viewer.images.length;
+  showImage();
+}
+$('#viewerImg').addEventListener('error', e => {
+  const img = e.target;
+  if (img.dataset.fallback && img.src !== img.dataset.fallback) { img.src = img.dataset.fallback; img.dataset.fallback = ''; }
+});
+$('#vPrev').addEventListener('click', e => { e.stopPropagation(); step(-1); });
+$('#vNext').addEventListener('click', e => { e.stopPropagation(); step(1); });
+$('#vClose').addEventListener('click', closeViewer);
+$('#viewerStage').addEventListener('click', e => { if (e.target === $('#viewerStage')) closeViewer(); });
+let touch = null;
+$('#viewerStage').addEventListener('touchstart', e => {
+  if (e.touches.length !== 1) { touch = null; return; }
+  touch = { x: e.touches[0].clientX, y: e.touches[0].clientY, t: Date.now() };
+}, { passive: true });
+$('#viewerStage').addEventListener('touchmove', e => {
+  if (!touch || e.touches.length !== 1) return;
+  const dx = e.touches[0].clientX - touch.x, dy = e.touches[0].clientY - touch.y;
+  $('#viewerImg').style.transition = 'none';
+  $('#viewerImg').style.transform = Math.abs(dx) > Math.abs(dy) ? `translateX(${dx}px)` : `translateY(${Math.max(0, dy)}px)`;
+}, { passive: true });
+$('#viewerStage').addEventListener('touchend', e => {
+  const img = $('#viewerImg');
+  img.style.transition = '';
+  if (!touch) return;
+  const t = e.changedTouches[0];
+  const dx = t.clientX - touch.x, dy = t.clientY - touch.y;
+  const tap = Math.abs(dx) < 8 && Math.abs(dy) < 8 && Date.now() - touch.t < 300;
+  touch = null;
+  if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy)) { step(dx < 0 ? 1 : -1); return; }
+  if (dy > 90 && Math.abs(dy) > Math.abs(dx)) { closeViewer(); return; }
+  img.style.transform = '';
+  if (tap && e.target === $('#viewerStage')) closeViewer();
+});
+document.addEventListener('keydown', e => {
+  if ($('#viewer').hidden) return;
+  if (e.key === 'ArrowLeft') step(-1);
+  else if (e.key === 'ArrowRight') step(1);
+  else if (e.key === 'Escape') closeViewer();
+});
+
+/* ── 操作 ── */
+$('#list').addEventListener('click', e => {
+  const cell = e.target.closest('.cell');
+  if (cell && !cell.classList.contains('broken')) {
+    const g = groups.find(x => x.id === cell.dataset.id);
+    if (g) openViewer(g.main.imageUrls, Number(cell.dataset.index) || 0);
+    return;
+  }
+  const more = e.target.closest('.more');
+  if (more) { more.previousElementSibling?.classList.remove('clamp'); more.remove(); return; }
+  const tagBtn = e.target.closest('.card-tags button');
+  if (tagBtn) { toggleTag(tagBtn.dataset.tag); window.scrollTo({ top: 0, behavior: 'smooth' }); }
+});
+$('#list').addEventListener('error', e => {
+  const el = e.target;
+  if (el.tagName !== 'IMG') return;
+  if (el.dataset.initial !== undefined) { el.replaceWith(document.createTextNode(el.dataset.initial || '?')); return; }
+  const cell = el.closest('.cell');
+  if (cell) { el.remove(); cell.classList.add('broken'); cell.insertAdjacentText('afterbegin', '画像を読み込めません'); }
+}, true);
+function toggleTag(tag) {
+  if (state.tags.has(tag)) state.tags.delete(tag); else state.tags.add(tag);
+  renderTags();
+  refresh();
+}
+$('#tagBar').addEventListener('click', e => { const b = e.target.closest('.tag-chip'); if (b) toggleTag(b.dataset.tag); });
+$('#tabs').addEventListener('click', e => {
+  const b = e.target.closest('.tab');
+  if (!b) return;
+  state.kind = b.dataset.kind;
+  document.querySelectorAll('.tab').forEach(t => t.setAttribute('aria-pressed', String(t === b)));
+  refresh();
+});
+let searchTimer;
+$('#search').addEventListener('input', e => {
+  $('#clearSearch').hidden = !e.target.value;
+  clearTimeout(searchTimer);
+  searchTimer = setTimeout(() => { state.query = e.target.value.trim(); refresh(); }, 200);
+});
+$('#search').addEventListener('keydown', e => { if (e.key === 'Enter') e.target.blur(); });
+$('#clearSearch').addEventListener('click', () => { $('#search').value = ''; $('#clearSearch').hidden = true; state.query = ''; refresh(); });
+$('#sort').addEventListener('change', e => { state.sort = e.target.value; refresh(); });
+$('#mediaFilter').addEventListener('change', e => { state.media = e.target.value; refresh(); });
+
+$('#pickBtn').addEventListener('click', () => $('#fileInput').click());
+$('#fileInput').addEventListener('change', e => { loadFile(e.target.files?.[0]); e.target.value = ''; });
+function openSheet() {
+  $('#sheetInfo').textContent = meta
+    ? `${fmtDate(meta.exportedAt) || '日付不明'} に書き出したバックアップ（${meta.count.toLocaleString('ja-JP')}項目）を表示中です。最新の内容を見るには、PCで書き出し直したファイルを読み込んでください。`
+    : '';
+  $('#sheet').hidden = $('#sheetBack').hidden = false;
+}
+function closeSheet() { $('#sheet').hidden = $('#sheetBack').hidden = true; }
+$('#menuBtn').addEventListener('click', openSheet);
+$('#closeSheet').addEventListener('click', closeSheet);
+$('#sheetBack').addEventListener('click', closeSheet);
+$('#replaceBtn').addEventListener('click', () => { closeSheet(); $('#fileInput').click(); });
+$('#clearBtn').addEventListener('click', async () => {
+  const btn = $('#clearBtn');
+  if (btn.dataset.armed !== '1') { btn.dataset.armed = '1'; btn.textContent = 'もう一度押すと消えます'; return; }
+  btn.dataset.armed = ''; btn.textContent = 'この端末からデータを消す';
+  await cacheClear();
+  groups = []; filtered = []; meta = null;
+  $('#list').innerHTML = '';
+  $('#top').hidden = true; $('#empty').hidden = true;
+  $('#welcome').hidden = false;
+  closeSheet();
+  setStatus('この端末のデータを消しました。');
+});
+
+/* PCではドラッグ&ドロップでも読み込める */
+let dragDepth = 0;
+window.addEventListener('dragenter', e => { if (e.dataTransfer?.types?.includes('Files')) { dragDepth++; $('#dropHint').hidden = false; } });
+window.addEventListener('dragleave', () => { dragDepth = Math.max(0, dragDepth - 1); if (!dragDepth) $('#dropHint').hidden = true; });
+window.addEventListener('dragover', e => e.preventDefault());
+window.addEventListener('drop', e => { e.preventDefault(); dragDepth = 0; $('#dropHint').hidden = true; loadFile(e.dataTransfer?.files?.[0]); });
+
+/* ── 起動 ── */
+(async () => {
+  const cached = await cacheLoad();
+  if (cached && Array.isArray(cached.posts) && cached.posts.length) applyData(cached);
+})();
+</script>
+</body>
+</html>
